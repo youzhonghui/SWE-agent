@@ -39,7 +39,7 @@ RUN conda --version \
 
 # Install python packages
 COPY docker/requirements.txt /root/requirements.txt
-RUN pip install -r /root/requirements.txt
+RUN pip install -r /root/requirements.txt -i http://mirrors.aliyun.com/pypi/simple/
 
 WORKDIR /
 

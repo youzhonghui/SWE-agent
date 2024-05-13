@@ -276,6 +276,20 @@ class OpenAIModel(BaseModel):
         return response.choices[0].message.content
 
 
+class APIModel(OpenAIModel):
+    MODELS = {
+        "deepseek-chat": {
+            "max_context": 32_000,
+            "cost_per_input_token": 1.4e-07,
+            "cost_per_output_token": 2.8e-07,
+        },
+    }
+
+    SHORTCUTS = {
+        "api-deepseek-v2": "deepseek-chat"
+    }
+
+
 class AnthropicModel(BaseModel):
     MODELS = {
         "claude-instant": {
@@ -850,6 +864,8 @@ def get_model(args: ModelArguments, commands: Optional[list[Command]] = None):
         return BedrockModel(args, commands)
     elif args.model_name.startswith("ollama"):
         return OllamaModel(args, commands)
+    elif args.model_name.startswith("api"):
+        return APIModel(args, commands)
     elif args.model_name in TogetherModel.SHORTCUTS:
         return TogetherModel(args, commands)
     elif args.model_name == "instant_empty_submit":
